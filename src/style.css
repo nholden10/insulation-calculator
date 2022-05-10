@@ -46,7 +46,6 @@
 
 .form--container{
     width: 30vw;
-    height: 83vh;
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -91,9 +90,11 @@
 .clauses--tab-selected {
     background-color: #ffe6a1;
     height: 5vh;
+    min-height:30px;
     width: 150px;
+    min-width: 80px;
     text-align: center;
-    padding-top: 10px;
+    padding-top: 5px;
     border-radius: 15px 15px 0px 0px;
     box-shadow: 5px -5px 4px black;
 }
@@ -101,15 +102,16 @@
 .clauses--tab-unselected {
     background-color: #968c70;
     height: 5vh;
+    min-height: 30px;
     width: 150px;
+    min-width: 80px;
     text-align: center;
-    padding-top: 10px;
+    padding-top: 5px;
     border-radius: 15px 15px 0px 0px;
 }
 
 .results--container{
     background-color: #ffe6a1;
-    height: 83vh;
     width: 70vw;
     display: flex;
     flex-direction: column;

@@ -100,7 +100,7 @@ export default function App() {
             <div className="app--body">
                 <div>
                     <div className="app--selectclause-container">
-                        <h2>Select the insulation clause using the tabs</h2>
+                        <h2>Select clause</h2>
                         <i className="fa-solid fa-arrow-right"></i>
                     </div>
                     <Form handleChange={handleChange} formData={formData} tabs={tabs} />
