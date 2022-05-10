@@ -98,7 +98,7 @@ export default function Results(props) {
     let solidFiveSecDCRI;
 
     let solidImpulseBI;
-    let solidImpulseRI;
+    let solidImpulseRI; 
 
     const maxSecondaryTableVoltage = formWVACDC === 'Vrms' ? 63000 : 88200;
 
@@ -320,12 +320,12 @@ export default function Results(props) {
 
     if (!isNaN(clearanceBI)) {
         if (formPol === '2') {
-            clearanceBI = clearanceBI <= 0.2 ? 0.2 : clearanceBI;
             clearanceRI = clearanceBI * 2;
+            clearanceBI = clearanceBI <= 0.2 ? 0.2 : clearanceBI;
             clearanceRI = clearanceRI <= 0.2 ? 0.2 : clearanceRI;
         } else if (formPol === '3') {
-            clearanceBI = clearanceBI <= 0.8 ? 0.8 : clearanceBI;
             clearanceRI = clearanceBI * 2;
+            clearanceBI = clearanceBI <= 0.8 ? 0.8 : clearanceBI;
             clearanceRI = clearanceRI <= 0.8 ? 0.8 : clearanceRI;
         } else {
             clearanceBI = clearanceBI;
