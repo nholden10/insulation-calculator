@@ -102,8 +102,29 @@ export default function Results(props) {
 
     const maxSecondaryTableVoltage = formWVACDC === 'Vrms' ? 63000 : 88200;
 
+    let details = {
+        clearance: "ok",
+        creepage: "Sup",
+        solid: "Hello"
+    }
+
     switch (activeTab) {
         case 0:
+
+            if (formWV === "") {
+                details.clearance = "";
+                details.creepage = "";
+                details.solid = "";
+            } else if(formWV !== "" && isNaN(formWV) ) {
+                details.clearance = "Invalid Working Voltage entered. Working voltage must be a number between 0 and 300V."
+                details.creepage = "Invalid Working Voltage entered. Working voltage must be a number between 0 and 300V.";
+                details.solid = "Invalid Working Voltage entered. Working voltage must be a number between 0 and 300V.";
+            } else {
+                details.clearance = "Clearance values taken from Table 4. No option for evaluating clearances via dielectric or impulse testing."
+                details.creepage = "Creepage values taken from Table 4.";
+                details.solid = "AC and DC solid insulation test voltages taken from Table 5.";
+            }
+
             clearanceBI = validate(1, 300, formWV) ? altitudeCorrection(getValueFromTable(table4.clearance, formWV), formAlt) : '---';
             
             creepage = validate(1, 300, formWV) ? getValueFromTable(table4.creepage[matType][formPol][matGrp], formWV) : '---';
@@ -116,13 +137,29 @@ export default function Results(props) {
             break;
         
         case 1:
+
+            if (formWV === "") {
+                details.clearance = "";
+                details.creepage = "";
+                details.solid = "";
+            } else if(formWV !== "" && isNaN(formWV) ) {
+                details.clearance = `Invalid Working Voltage entered. Working voltage must be a number between 0 and ${maxSecondaryTableVoltage}.`
+                details.creepage = `Invalid Working Voltage entered. Working voltage must be a number between 0 and ${maxSecondaryTableVoltage}.`;
+                details.solid = `Invalid Working Voltage entered. Working voltage must be a number between 0 and ${maxSecondaryTableVoltage}.`;
+            } else {
+                details.clearance = `Clearances can be evaluated via measured spacings or 5 sec AC voltage dielectric tests as per Table 6. Additionally, if North American deviations are applied, one min DC voltage tests using 1.414 x AC delectric test voltage.`
+                details.creepage = "Creepage values taken from Table 7.";
+                details.solid = `5 sec dielectric voltage test voltage taken from Table 6. ${formWV > 300 ? "In addition to the 5 sec test, a one minute dielectric voltage test required." : ""}` ;
+            }
+            
+            
             clearanceBI = validate(1, maxSecondaryTableVoltage, formWV) ? altitudeCorrection(getValueFromTable(table6[formWVACDC].clearance[formDerivedWV], formWV, formIsInterpol), formAlt) : '---';
             
             clearanceFiveSecACBI = validate(1, maxSecondaryTableVoltage, formWV) ? altitudeCorrection(getValueFromTable(table6[formWVACDC].acTestVoltage[formDerivedWV], formWV, formIsInterpol), formAlt) : '---';
             clearanceFiveSecACRI = !isNaN(clearanceFiveSecACBI) ? 1.6 * clearanceFiveSecACBI : '---';
             clearanceOneMinDCBI = !isNaN(clearanceFiveSecACBI) ? 1.414 * clearanceFiveSecACBI : '---';
             clearanceOneMinDCRI = !isNaN(clearanceFiveSecACBI) ? 1.6 * clearanceOneMinDCBI : '---';
-            console.log(matType, formPol, matGrp)
+
             creepage = validate(1, 63000, formWV) ? getValueFromTable(table7[matType][formPol][matGrp], formWV, formIsInterpol) : '---';
 
             solidFiveSecACBI = validate(1, maxSecondaryTableVoltage, formWV) ? getValueFromTable(table6[formWVACDC].acTestVoltage[formDerivedWV], formWV, formIsInterpol) : '---'
@@ -147,6 +184,21 @@ export default function Results(props) {
         case 2:
 
             if (formOV === 'II') {
+
+                if (formWV === "") {
+                    details.clearance = "";
+                    details.creepage = "";
+                    details.solid = "";
+                } else if(formWV !== "" && isNaN(formWV) ) {
+                    details.clearance = `Invalid Working Voltage entered. Working voltage must be a number between 300 and 1000V.`
+                    details.creepage = "Invalid Working Voltage entered. Working voltage must be a number between 300 and 1000V.";
+                    details.solid = "Invalid Working Voltage entered. Working voltage must be a number between 300 and 1000V.";
+                } else {
+                    details.clearance = "Clearance values taken from Table K2. No option for evaluating clearances via dielectric or impulse testing. However, if any doubt about the clearance measurements, they can be confirmed via Impulse testing using a test voltage from Table K16."
+                    details.creepage = "Creepage values taken from Table K2.";
+                    details.solid = "5 sec AC test or Impulse testing as per Table K5 is required. Additionally, a one minute dielectric voltage test required as per Table K8";
+                }
+
                 clearanceBI = validate(301, 1000, formWV) ? altitudeCorrection(getValueFromTable(tablek2.clearance, formWV), formAlt) : '---';
                 
                 creepage = validate(301, 1000, formWV) ? getValueFromTable(tablek2.creepage[matType][formPol][matGrp], formWV) : '---';
@@ -154,11 +206,25 @@ export default function Results(props) {
                 solidFiveSecACBI = validate(301, 1000, formWV) ? getValueFromTable(tablek5.fiveSecVoltage.bi, formWV) : '---';
                 solidFiveSecACRI = validate(301, 1000, formWV) ? getValueFromTable(tablek5.fiveSecVoltage.ri, formWV) : '---';
                 solidImpulseBI = validate(301, 1000, formWV) ? getValueFromTable(tablek5.impulse.bi, formWV) : '---';
-                solidImpulseRI = validate(301, 1000, formWV) ? getValueFromTable(tablek5.impulse.ri, formWV) : '---';
-                
+                solidImpulseRI = validate(301, 1000, formWV) ? getValueFromTable(tablek5.impulse.ri, formWV) : '---';               
 
 
             } else if (formOV === 'III') {
+
+                if (formWV === "") {
+                    details.clearance = "";
+                    details.creepage = "";
+                    details.solid = "";
+                } else if(formWV !== "" && isNaN(formWV) ) {
+                    details.clearance = `Invalid Working Voltage entered. Working voltage must be a number between 0 and 1000V.`
+                    details.creepage = "Invalid Working Voltage entered. Working voltage must be a number between 0 and 1000V.";
+                    details.solid = "Invalid Working Voltage entered. Working voltage must be a number between 0 and 1000V.";
+                } else {
+                    details.clearance = "Clearance values taken from Table K3. No option for evaluating clearances via dielectric or impulse testing. However, if any doubt about the clearance measurements, they can be confirmed via Impulse testing using a test voltage from Table K16."
+                    details.creepage = "Creepage values taken from Table K3.";
+                    details.solid = "5 sec AC test or Impulse testing as per Table K6 is required. Additionally, a one minute dielectric voltage test required as per Table K8";
+                }
+
                 clearanceBI = validate(1, 1000, formWV) ? altitudeCorrection(getValueFromTable(tablek3.clearance, formWV), formAlt) : '---';
                 
                 creepage = validate(1, 1000, formWV) ? getValueFromTable(tablek3.creepage[matType][formPol][matGrp], formWV) : '---';
@@ -170,6 +236,21 @@ export default function Results(props) {
 
 
             } else if (formOV === 'IV') {
+
+                if (formWV === "") {
+                    details.clearance = "";
+                    details.creepage = "";
+                    details.solid = "";
+                } else if(formWV !== "" && isNaN(formWV) ) {
+                    details.clearance = `Invalid Working Voltage entered. Working voltage must be a number between 0 and 1000V.`
+                    details.creepage = "Invalid Working Voltage entered. Working voltage must be a number between 0 and 1000V.";
+                    details.solid = "Invalid Working Voltage entered. Working voltage must be a number between 0 and 1000V.";
+                } else {
+                    details.clearance = "Clearance values taken from Table K4. No option for evaluating clearances via dielectric or impulse testing. However, if any doubt about the clearance measurements, they can be confirmed via Impulse testing using a test voltage from Table K16."
+                    details.creepage = "Creepage values taken from Table K4.";
+                    details.solid = "5 sec AC test or Impulse testing as per Table K7 is required. Additionally, a one minute dielectric voltage test required as per Table K8";
+                }
+
                 clearanceBI = validate(1, 1000, formWV) ? altitudeCorrection(getValueFromTable(tablek4.clearance, formWV), formAlt) : '---';
                 
                 creepage = validate(1, 1000, formWV) ? getValueFromTable(tablek4.creepage[matType][formPol][matGrp], formWV) : '---';
@@ -178,7 +259,7 @@ export default function Results(props) {
                 solidFiveSecACRI = validate(1, 1000, formWV) ? getValueFromTable(tablek7.fiveSecVoltage.ri, formWV) : '---';
                 solidImpulseBI = validate(1, 1000, formWV) ? getValueFromTable(tablek7.impulse.bi, formWV) : '---';
                 solidImpulseRI = validate(1, 1000, formWV) ? getValueFromTable(tablek7.impulse.ri, formWV) : '---';
-
+                details.solid = "sup"
             
             }
             const minVoltage = formOV === 'II' ? 301 : 1;
@@ -203,6 +284,21 @@ export default function Results(props) {
         case 3:
             
             if (formDerivedOV === 'II') {
+
+                if (formWV === "") {
+                    details.clearance = "";
+                    details.creepage = "";
+                    details.solid = "";
+                } else if(formWV !== "" && isNaN(formWV) ) {
+                    details.clearance = `Invalid Working Voltage entered. Working voltage must be a number between 0 and ${maxSecondaryTableVoltage}.`
+                    details.creepage = `Invalid Working Voltage entered. Working voltage must be a number between 0 and ${maxSecondaryTableVoltage}.`;
+                    details.solid = `Invalid Working Voltage entered. Working voltage must be a number between 0 and ${maxSecondaryTableVoltage}.`;
+                } else {
+                    details.clearance = `Clearances can be evaluated via measured spacings or 5 sec AC voltage dielectric tests as per Table K10. Additionally, if North American deviations are applied, one min DC voltage tests using 1.414 x AC delectric test voltage.`
+                    details.creepage = "Creepage values taken from Table 7.";
+                    details.solid = `5 sec dielectric voltage test voltage taken from Table K10. ${formWV > 300 ? "In addition to the 5 sec test, a one minute dielectric voltage test required." : ""}` ;
+                }
+
                 clearanceBI = validate(1, maxSecondaryTableVoltage, formWV) ? altitudeCorrection(getValueFromTable(tablek10[formWVACDC].clearance[formDerivedWV], formWV, formIsInterpol), formAlt) : '---';
                 
                 clearanceFiveSecACBI = validate(1, maxSecondaryTableVoltage, formWV) ? altitudeCorrection(getValueFromTable(tablek10[formWVACDC].acTestVoltage[formDerivedWV], formWV, formIsInterpol), formAlt) : '---';
@@ -212,12 +308,40 @@ export default function Results(props) {
            
             } else if (formDerivedOV === 'III') {
 
+                if (formWV === "") {
+                    details.clearance = "";
+                    details.creepage = "";
+                    details.solid = "";
+                } else if(formWV !== "" && isNaN(formWV) ) {
+                    details.clearance = `Invalid Working Voltage entered. Working voltage must be a number between 0 and ${maxSecondaryTableVoltage}.`
+                    details.creepage = `Invalid Working Voltage entered. Working voltage must be a number between 0 and ${maxSecondaryTableVoltage}.`;
+                    details.solid = `Invalid Working Voltage entered. Working voltage must be a number between 0 and ${maxSecondaryTableVoltage}.`;
+                } else {
+                    details.clearance = `Clearances can be evaluated via measured spacings or 5 sec AC voltage dielectric tests as per Table 6. Additionally, if North American deviations are applied, one min DC voltage tests using 1.414 x AC delectric test voltage.`
+                    details.creepage = "Creepage values taken from Table 7.";
+                    details.solid = `5 sec dielectric voltage test voltage taken from Table K11. ${formWV > 300 ? "In addition to the 5 sec test, a one minute dielectric voltage test required." : ""}` ;
+                }
+
                 clearanceBI = validate(1, maxSecondaryTableVoltage, formWV) ? altitudeCorrection(getValueFromTable(tablek11[formWVACDC].clearance[formDerivedWV], formWV, formIsInterpol), formAlt) : '---';
                 clearanceFiveSecACBI = validate(1, maxSecondaryTableVoltage, formWV) ? altitudeCorrection(getValueFromTable(tablek11[formWVACDC].acTestVoltage[formDerivedWV], formWV, formIsInterpol), formAlt) : '---';
 
                 solidFiveSecACBI = validate(1, maxSecondaryTableVoltage, formWV) ? getValueFromTable(tablek11[formWVACDC].acTestVoltage[formDerivedWV], formWV, formIsInterpol) : '---';
                 
             } else if (formDerivedOV === 'IV') {
+
+                if (formWV === "") {
+                    details.clearance = "";
+                    details.creepage = "";
+                    details.solid = "";
+                } else if(formWV !== "" && isNaN(formWV) ) {
+                    details.clearance = `Invalid Working Voltage entered. Working voltage must be a number between 0 and ${maxSecondaryTableVoltage}.`
+                    details.creepage = `Invalid Working Voltage entered. Working voltage must be a number between 0 and ${maxSecondaryTableVoltage}.`;
+                    details.solid = `Invalid Working Voltage entered. Working voltage must be a number between 0 and ${maxSecondaryTableVoltage}.`;
+                } else {
+                    details.clearance = `Clearances can be evaluated via measured spacings or 5 sec AC voltage dielectric tests as per Table 6. Additionally, if North American deviations are applied, one min DC voltage tests using 1.414 x AC delectric test voltage.`
+                    details.creepage = "Creepage values taken from Table 7.";
+                    details.solid = `5 sec dielectric voltage test voltage taken from Table K12. ${formWV > 300 ? "In addition to the 5 sec test, a one minute dielectric voltage test required." : ""}` ;
+                }
 
                 clearanceBI = validate(1, maxSecondaryTableVoltage, formWV) ? altitudeCorrection(getValueFromTable(tablek12[formWVACDC].clearance[formDerivedWV], formWV, formIsInterpol), formAlt) : '---';
                 clearanceFiveSecACBI = validate(1, maxSecondaryTableVoltage, formWV) ? altitudeCorrection(getValueFromTable(tablek12[formWVACDC].acTestVoltage[formDerivedWV], formWV, formIsInterpol), formAlt) : '---';
@@ -255,6 +379,23 @@ export default function Results(props) {
             if (isNaN(formWV) || isNaN(formMaxTrans) || isNaN(formMaxPeak)) {
                 break;
             }
+
+
+            if (formWV === "") {
+                details.clearance = "";
+                details.creepage = "";
+                details.solid = "";
+            } else if(formWV !== "" && isNaN(formWV) ) {
+                details.clearance = `Invalid value entered.`
+                details.creepage = `Invalid value entered.`;
+                details.solid = `Invalid value entered.`;
+            } else {
+                details.clearance = `Clearances can be evaluated via measured spacings, 5 sec AC voltage dielectric test, or impulse test as per Table K16 (based on the calculated clearance distance requirement). Additionally, if North American deviations are applied, one min DC voltage tests using 1.414 x AC delectric test voltage.`
+                details.creepage = "Creepage values taken from Table 7.";
+                details.solid = `5 sec dielectric voltage test voltage taken from Table K10. ${formWV > 300 ? "In addition to the 5 sec test, a one minute dielectric voltage test required." : ""}` ;
+            }
+
+
             let ut = parseInt(formMaxTrans);
             let uw;
             let um;
@@ -273,17 +414,22 @@ export default function Results(props) {
                 um = (ut > uw) ? ut : uw;
             } else {
                 um = uw + ut;
+                console.log(um, uw, ut)
             }
-
-            console.log(formIsMainsTransients, um, ut)
 
             let f = (uw / um > 0.2) ? (1.25*uw/um)-0.25 : 0
             
 
             let d1 = validate(1, 100000, um) ? getValueFromTable(tablek15.d1, um, formIsInterpol) : '---';
             let d2 = validate(1, 100000, um) ? getValueFromTable(tablek15.d2, um, formIsInterpol) : '---';
-            
-            clearanceBI = d1 + f * (d2 - d1);
+        
+            if (formIsTransAboveMains || formIsTransBelowMains || formIsSum || formIsRecurringPeak) {
+                clearanceBI = d1 + f * (d2 - d1);
+            } else if (formIsFrequencyAbove30k) {
+                details.clearance = `Clearances can be evaluated via measured spacings, 5 sec AC voltage dielectric test, or impulse test as per Table K16 (based on the required clearance distance as per table k17). Additionally, if North American deviations are applied, one min DC voltage tests using 1.414 x AC delectric test voltage.`;
+                clearanceBI = validate(1, 40000, uw) ? getValueFromTable(tablek17.above30, uw, formIsInterpol) : '---';
+                console.log(clearanceBI)
+            }
             var altCorrectedClearance = altitudeCorrection(clearanceBI, formAlt);
 
             clearanceFiveSecACBI = validate(0.01, 100, altCorrectedClearance) ? getValueFromTable(tablek16.acrms, altCorrectedClearance, formIsInterpol) : '---';
@@ -331,6 +477,11 @@ export default function Results(props) {
             clearanceBI = clearanceBI;
             clearanceRI = clearanceBI * 2;
         }
+
+        if (clearanceBI > creepage) {
+            creepage = clearanceBI;
+        }
+
     } else {
         clearanceBI = '---';
         clearanceRI = '---';
@@ -361,154 +512,171 @@ export default function Results(props) {
     
 
     return (
-        <div className="results--container">   
-            <div className="results--container-clearance">          
-                <div className="results--row-container">
-                    <h4></h4>
-                    <h4><u>Basic / Supplementary</u></h4>
-                    <h4><u>Reinforced</u></h4>
-                    <h4></h4>
+        <div className="results--container"> 
+            <div className="results--grouping">    
+                <div className="results--container-clearance">          
+                    <div className="results--row-container">
+                        <label className="results--label-title">Clearance</label>
+                        <label className="results--label-biri">BI/ SI</label>
+                        <label className="results--label-biri">RI</label>
+                    </div>
+
+                    {
+                        (
+                            activeTab === 0 ||
+                            activeTab === 1 ||
+                            activeTab === 2 ||
+                            activeTab === 3 ||
+                            activeTab === 4)
+                        &&
+                        <div className="results--row-container">
+                            <h4 className="results--method">Spacings:</h4>
+                            <h4 className="results--value">{clearanceBI} mm</h4>
+                            <h4 className="results--value">{clearanceRI} mm</h4>
+                        </div>
+                    }
+                    {
+                        (
+                            activeTab === 1 ||
+                            activeTab === 2 ||
+                            activeTab === 3 ||
+                            activeTab === 4)
+                        &&                          
+                        <div className="results--row-container">
+                            <h4 className="results--method">5 sec voltage tests:</h4>
+                            <h4 className="results--value">{clearanceFiveSecACBI} Vac</h4>
+                            <h4 className="results--value">{clearanceFiveSecACRI} Vac</h4>
+                        </div>
+                    }
+                    {
+                        (
+                            activeTab === 1 ||
+                            activeTab === 3 ||
+                            activeTab === 4)
+                        &&
+                        <div className="results--row-container">
+                            <h4 className="results--method">One minute voltage tests:</h4>
+                            <h4 className="results--value">{clearanceOneMinDCBI} Vdc</h4>
+                            <h4 className="results--value">{clearanceOneMinDCRI} Vdc</h4>
+                        </div>
+                    }
+                    {
+                        (
+                            activeTab === 2 ||
+                            activeTab === 4)
+                        &&
+                        <div className="results--row-container">
+                            <h4 className="results--method">1, 2/50us Vpeak impulse test:</h4>
+                            <h4 className="results--value">{clearanceImpulseBI} Vpk</h4>
+                            <h4 className="results--value">{clearanceImpulseRI} Vpk</h4>
+                        </div>
+                    }
+                </div>   
+                <div className="results--container-details">
+                    <label className="results--label-title">Details</label>
+                    <textarea
+                        className="results--details" disabled value={details.clearance} />
                 </div>
-                <label className="results--label">Clearances</label>
-
-                {
-                    (
-                        activeTab === 0 ||
-                        activeTab === 1 ||
-                        activeTab === 2 ||
-                        activeTab === 3 ||
-                        activeTab === 4)
-                    &&
-                    <div className="results--row-container">
-                        <h4>Spacings:</h4>
-                        <h4>{clearanceBI} mm</h4>
-                        <h4>{clearanceRI} mm</h4>
-                        <h4>--Details--</h4>
-                    </div>
-                }
-                {
-                    (
-                        activeTab === 1 ||
-                        activeTab === 2 ||
-                        activeTab === 3 ||
-                        activeTab === 4)
-                    &&                          
-                    <div className="results--row-container">
-                        <h4>5 sec voltage tests:</h4>
-                        <h4>{clearanceFiveSecACBI} Vac</h4>
-                        <h4>{clearanceFiveSecACRI} Vac</h4>
-                        <h4>--Details--</h4>
-                    </div>
-                }
-                {
-                    (
-                        activeTab === 1 ||
-                        activeTab === 3 ||
-                        activeTab === 4)
-                    &&
-                    <div className="results--row-container">
-                        <h4>One minute voltage tests:</h4>
-                        <h4>{clearanceOneMinDCBI} Vdc</h4>
-                        <h4>{clearanceOneMinDCRI} Vdc</h4>
-                        <h4>--Details--</h4>
-                    </div>
-                }
-                {
-                    (
-                        activeTab === 2 ||
-                        activeTab === 4)
-                    &&
-                    <div className="results--row-container">
-                        <h4>1, 2/50us Vpeak impulse test:</h4>
-                        <h4>{clearanceImpulseBI} Vpk</h4>
-                        <h4>{clearanceImpulseRI} Vpk</h4>
-                        <h4>--Details--</h4>
-                    </div>
-                }
-            </div>   
-            
-            <div className="results--container-creepage">
-                <label className="results--label">Creepages</label>
-                <div className="results--row-container">
-                    <h4>Spacings:</h4>
-                    <h4>{creepage} mm</h4>
-                    <h4>{creepage !== '---' ? (2 * creepage).toFixed(2) : '---'} mm</h4>
-                    <h4>--Details--</h4>
-                </div>        
             </div>
-
-            <div className="results--container-solidInsulation">
-                <label className="results--label">Solid Insulation</label>
-                {
-                    (
-                        activeTab === 0 ||
-                        activeTab === 1 ||
-                        activeTab === 2 ||
-                        activeTab === 3 ||
-                        activeTab === 4)
-                    &&
+            
+            <div className="results--grouping">
+                <div className="results--container-creepage">
                     <div className="results--row-container">
-                        <h4>One minute AC:</h4>
-                        <h4>{solidOneMinACBI} Vac</h4>
-                        <h4>{solidOneMinACRI} Vac</h4>
-                        <h4>--Details--</h4>
+                        <label className="results--label-title">Creepages</label>
+                        <label className="results--label-biri">BI/ SI</label>
+                        <label className="results--label-biri">RI</label>
                     </div>
-                }
-                {
-                    (
-                        activeTab === 0 ||
-                        activeTab === 1 ||
-                        activeTab === 2 ||
-                        activeTab === 3 ||
-                        activeTab === 4)
-                    &&
                     <div className="results--row-container">
-                        <h4>One minute DC:</h4>
-                        <h4>{solidOneMinDCBI} Vdc</h4>
-                        <h4>{solidOneMinDCRI} Vdc</h4>
-                        <h4>--Details--</h4>
-                    </div>
-                }
-                {
-                    (
-                        activeTab === 1 ||
-                        activeTab === 2 ||
-                        activeTab === 3 ||
-                        activeTab === 4)
-                    &&
+                        <h4 className="results--method">Spacings:</h4>
+                        <h4 className="results--value">{creepage} mm</h4>
+                        <h4 className="results--value">{creepage !== '---' ? (2 * creepage).toFixed(2) : '---'} mm</h4>
+                    </div>        
+                </div>
+                <div className="results--container-details">
+                    <label className="results--label-title">Details</label>
+                    <textarea className="results--details" value={details.creepage} disabled />
+                </div>
+                
+            </div>
+            
+            <div className="results--grouping">
+                <div className="results--container-solidInsulation">
                     <div className="results--row-container">
-                        <h4>5 sec voltage tests (AC):</h4>
-                        <h4>{solidFiveSecACBI} Vac</h4>
-                        <h4>{solidFiveSecACRI} Vac</h4>
-                        <h4>--Details--</h4>
+                        <label className="results--label-title">Solid Insulation</label>
+                        <label className="results--label-biri">BI/ SI</label>
+                        <label className="results--label-biri">RI</label>
                     </div>
-                }
-                {
-                    (
-                        activeTab === 1 ||
-                        activeTab === 2 ||
-                        activeTab === 3 ||
-                        activeTab === 4)
-                    &&
-                    <div className="results--row-container">
-                        <h4>5 sec voltage tests (DC):</h4>
-                        <h4>{solidFiveSecDCBI} Vdc</h4>
-                        <h4>{solidFiveSecDCRI} Vdc</h4>
-                        <h4>--Details--</h4>
-                    </div>
-                }
-                {
-                    (
-                        activeTab === 2)
-                    &&
-                    <div className="results--row-container">
-                        <h4>1, 2/50us Vpeak impulse test:</h4>
-                        <h4>{solidImpulseBI} Vpk</h4>
-                        <h4>{solidOneMinACRI} Vpk</h4>
-                        <h4>--Details--</h4>
-                    </div>
-                }
-            </div>                    
+                    {
+                        (
+                            activeTab === 0 ||
+                            activeTab === 1 ||
+                            activeTab === 2 ||
+                            activeTab === 3 ||
+                            activeTab === 4)
+                        &&
+                        <div className="results--row-container">
+                            <h4 className="results--method">One minute voltage tests:</h4>
+                            <h4 className="results--value">{solidOneMinACBI} Vac</h4>
+                            <h4 className="results--value">{solidOneMinACRI} Vac</h4>
+                        </div>
+                    }
+                    {
+                        (
+                            activeTab === 0 ||
+                            activeTab === 1 ||
+                            activeTab === 2 ||
+                            activeTab === 3 ||
+                            activeTab === 4)
+                        &&
+                        <div className="results--row-container">
+                            <h4 className="results--method">One minute voltage tests:</h4>
+                            <h4 className="results--value">{solidOneMinDCBI} Vdc</h4>
+                            <h4 className="results--value">{solidOneMinDCRI} Vdc</h4>
+                        </div>
+                    }
+                    {
+                        (
+                            activeTab === 1 ||
+                            activeTab === 2 ||
+                            activeTab === 3 ||
+                            activeTab === 4)
+                        &&
+                        <div className="results--row-container">
+                            <h4 className="results--method">5 sec voltage tests:</h4>
+                            <h4 className="results--value">{solidFiveSecACBI} Vac</h4>
+                            <h4 className="results--value">{solidFiveSecACRI} Vac</h4>
+                        </div>
+                    }
+                    {
+                        (
+                            activeTab === 1 ||
+                            activeTab === 2 ||
+                            activeTab === 3 ||
+                            activeTab === 4)
+                        &&
+                        <div className="results--row-container">
+                            <h4 className="results--method">5 sec voltage tests:</h4>
+                            <h4 className="results--value">{solidFiveSecDCBI} Vdc</h4>
+                            <h4 className="results--value">{solidFiveSecDCRI} Vdc</h4>
+                        </div>
+                    }
+                    {
+                        (
+                            activeTab === 2)
+                        &&
+                        <div className="results--row-container">
+                            <h4 className="results--method">1, 2/50us Vpeak impulse test:</h4>
+                            <h4 className="results--value">{solidImpulseBI} Vpk</h4>
+                            <h4 className="results--value">{solidOneMinACRI} Vpk</h4>
+                        </div>
+                    }
+                </div>  
+                <div className="results--container-details">
+                    <label className="results--label-title">Details</label>
+                    <textarea className="results--details" value={details.solid} disabled />
+                </div>
+            </div>
         </div>
+                
     )
 }

@@ -57,7 +57,7 @@ checkbox is checked. This will ensure that the max transients expected from main
             <h2>Enter product specs <i className="fa-solid fa-arrow-down"></i> </h2>
 
                 <div className="form--input-container">
-                    <label className="commonform--alt">Max operating alititude:</label>
+                    <label className="form--label">Max operating alititude:</label>
                     <select
                         id="formAlt"
                         onChange={handleChange}
@@ -71,7 +71,7 @@ checkbox is checked. This will ensure that the max transients expected from main
                     </select>
                 </div>
                 <div className="form--input-container">
-                    <label>Pollution Degree:</label>
+                    <label className="form--label">Pollution Degree:</label>
                     <select
                         id="formPol"
                         onChange={handleChange}
@@ -84,7 +84,7 @@ checkbox is checked. This will ensure that the max transients expected from main
                     </select> 
                 </div>
                 <div className="form--input-container">
-                    <label>Material Group:</label>
+                    <label className="form--label">Material Group:</label>
                     <select
                         id="formMatGroup"
                         onChange={handleChange}
@@ -98,7 +98,7 @@ checkbox is checked. This will ensure that the max transients expected from main
                     </select>
                 </div>
                 <div className="form--input-container">
-                    <label>Type of Material:</label>
+                    <label className="form--label">Type of Material:</label>
                     <select                       
                         id="formMatType"
                         onChange={handleChange}
@@ -145,7 +145,7 @@ checkbox is checked. This will ensure that the max transients expected from main
                 {
                     activeTab === 2 &&
                 <div className="form--input-container">
-                    <label className="applicationform">Overvoltage Catergory:</label>
+                    <label className="form--label">Overvoltage Catergory:</label>
                     <select
                         id="formOV"
                         onChange={handleChange}
@@ -162,7 +162,7 @@ checkbox is checked. This will ensure that the max transients expected from main
                 { (activeTab === 1 || activeTab === 3) &&
                 <div>
                     <div className="form--input-container">
-                        <label className="applicationform">Derived from Overvoltage Catergory:</label>
+                        <label className="form--label">Derived from Overvoltage Catergory:</label>
                         <select
                             id="formDerivedOV"
                             onChange={handleChange}
@@ -196,7 +196,7 @@ checkbox is checked. This will ensure that the max transients expected from main
                     activeTab === 4 &&
                     <div>
                         <div className="form--checkbox-container">
-                            <label className="applicationform">1) Transients limited to a value below mains</label>
+                            <label className="form--label">1) Transients limited to a value below mains</label>
                             <input
                                 type="checkbox"
                                 id="formIsTransBelowMains"
@@ -205,7 +205,7 @@ checkbox is checked. This will ensure that the max transients expected from main
                                 value={props.formData.formIsTransBelowMains} />
                         </div>
                         <div className="form--checkbox-container">
-                            <label className="applicationform">2) Transients a value above mains</label>
+                            <label className="form--label">2) Transients a value above mains</label>
                             <input
                                 type="checkbox"
                                 id="formIsTransAboveMains"
@@ -214,7 +214,7 @@ checkbox is checked. This will ensure that the max transients expected from main
                                 value={props.formData.formIsTransAboveMains}/> 
                         </div>
                         <div className="form--checkbox-container">
-                            <label className="applicationform">3) Working voltage is a sum of multiple voltages</label>
+                            <label className="form--label">3) Working voltage is a sum of multiple voltages</label>
                             <input
                                 type="checkbox"
                                 id="formIsSum"
@@ -223,7 +223,7 @@ checkbox is checked. This will ensure that the max transients expected from main
                                 value={props.formData.formIsSum} />
                         </div>
                         <div className="form--checkbox-container">
-                            <label className="applicationform">4) Working voltage contains recurring peaks</label>
+                            <label className="form--label">4) Working voltage contains recurring peaks</label>
                             <input
                                 type="checkbox"
                                 id="formIsRecurringPeak"
@@ -232,7 +232,7 @@ checkbox is checked. This will ensure that the max transients expected from main
                                 value={props.formData.formIsRecurringPeak} /> 
                         </div>
                         <div className="form--checkbox-container">
-                            <label className="applicationform">5) Frequency is greater than 30kHz</label>
+                            <label className="form--label">5) Frequency is greater than 30kHz</label>
                             <input
                                 type="checkbox"
                                 id="formIsFrequencyAbove30k"
@@ -241,7 +241,7 @@ checkbox is checked. This will ensure that the max transients expected from main
                                 value={props.formData.formIsFrequencyAbove30k} /> 
                         </div>
                         <div className="form--checkbox-container">
-                        <label className="applicationform">Are mains transients expected?</label>
+                        <label className="form--label">Are mains transients expected?</label>
                         <input
                             type="checkbox"
                             id="formIsMainsTransients"
@@ -253,7 +253,7 @@ checkbox is checked. This will ensure that the max transients expected from main
                             formData.formIsRecurringPeak &&
 
                             <div className="form--input-container">
-                                <label>Maximum peak working voltage (Vpk):</label>
+                                <label className="form--label">Maximum peak working voltage (Vpk):</label>
                                 <input 
                                     type="text"
                                     id="formMaxPeak"
@@ -265,7 +265,7 @@ checkbox is checked. This will ensure that the max transients expected from main
                         }
                                
                         <div className="form--input-container">
-                            <label>Maximum expected transients (Vpk):</label>
+                            <label className="form--label">Maximum expected transients (Vpk):</label>
                             <input
                                 type="text"
                                 id="formMaxTrans"
@@ -278,7 +278,7 @@ checkbox is checked. This will ensure that the max transients expected from main
                 }
 
                 <div className="form--checkbox-container">
-                    <label className="applicationform">Use interpolation when possible</label>
+                    <label className="form--label">Use interpolation when possible</label>
                     <input
                         type="checkbox"
                         id="formIsInterpol"
@@ -289,7 +289,7 @@ checkbox is checked. This will ensure that the max transients expected from main
                 {
                     activeTab === 4 &&
                     <div className="form--checkbox-container">
-                        <label className="applicationform">6.7.1.5e usage information</label>
+                        <label className="form--label">6.7.1.5e usage information</label>
                         <i className="fa-solid fa-circle-question form--6715-info-button"
                             onClick={handleInfoClick}>
                         </i>

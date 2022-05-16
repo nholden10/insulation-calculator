@@ -46,6 +46,7 @@
 
 .form--container{
     width: 30vw;
+    min-height: 800px;
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -110,38 +111,95 @@
     border-radius: 15px 15px 0px 0px;
 }
 
+.results--grouping{
+    display: flex;
+    font-size: 20px;
+    justify-content: space-between;
+    margin-top: 2vh;
+}
+
+.results--container-clearance{
+    padding: 10px;
+    width: 60%;
+}
+
+
+.results--container-creepage{
+    padding: 10px;
+    width: 60%;
+}
+
+.results--container-solidInsulation{
+    padding: 10px;
+    width: 60%;
+}
+
 .results--container{
     background-color: #ffe6a1;
     width: 70vw;
+    min-height: 800px;
     display: flex;
     flex-direction: column;
     box-shadow: 0px 5px 10px gray;
     border-radius: 10px;;
 }
 
-.results--label{
+.results--label-title{
     font-size: 25px;
+    margin-bottom: 10px;
 }
 
-.results--container-clearance{
+.results--label-biri{
+    font-size: 25px;
+    margin-bottom: 10px;
+    justify-self: center;
+}
+
+
+.results--value{
+    display: flex;
+    align-items: center;
+    min-width: 120px;
+    max-width: 150px;
+    justify-content: center;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 5px 5px 10px;
+}
+
+.results--method{
     background-color: #ffe6a1;
-    margin-bottom: 100px;
-
-}
-
-.results--container-creepage{
-    margin-bottom: 100px;;
-}
-
-.results--container-solidInsulation{
-    
+    padding-left: 10px;
+    min-width: 60px;
 }
 
 .results--row-container{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 2fr;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    column-gap: 40px;
+    padding-bottom: 5px;
     background-color: #ffe6a1;
-    height: 33.3%;
+}
+
+.results--container-details{
+    display: flex;
+    align-items: center;
+    width: 40%;
+    flex-direction: column;
+    padding: 10px;
+    padding-right: 10vw;
+}
+
+.results--details{
+    min-width: 300px;
+    font-weight: 600;
+    height: 100%;
+    margin-right: 10px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 5px 5px 10px black;
+    color: black;
+    resize: none;
 }
 
 input {
@@ -160,7 +218,7 @@ select {
     border-radius: 5px;;
 }
 
-label{
+.form--label{
     padding: 10px;
 }
 
